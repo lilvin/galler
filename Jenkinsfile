@@ -5,6 +5,8 @@ pipeline {
             args '-p 3000:3000'
         }
     }
+    tools {nodejs "node"}
+
     stages {
         stage('Build') {
             steps {
@@ -13,10 +15,16 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'npm run test/serverTest.js'
+                sh 'node test'
             }
         }
-        stage('Deliver') { 
+
+//         stage('deploy') {
+//             steps {
+//                 sh ''
+//             }
+        }
+        stage('Deliver') {
             post {
             success {
                 slackSend "Build deployed successfully - ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
